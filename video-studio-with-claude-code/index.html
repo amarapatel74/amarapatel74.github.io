@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build a video studio with Claude Code · Amar Patel</title>
+<meta name="description" content="One prompt and a plan for a local, open-source stack that turns a script and a recording of your app into short videos.">
+<meta property="og:title" content="Build a video studio with Claude Code">
+<meta property="og:description" content="One prompt and a plan for a local, open-source stack that turns a script and a recording of your app into short videos.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://amarapatel74.github.io/video-studio-with-claude-code/poster.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#F6F1E7; --ink:#231B12; --muted:#6E6255; --accent:#A63E12;
+    --structure:#33544A; --hairline:#E4DAC6; --card:#FBF8F1; --tint:#F3E1D2;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 18px; line-height: 1.55; }
+  main { max-width: 820px; margin: 0 auto; padding: 72px 32px 120px; }
+  .back { font-weight: 600; color: var(--structure); text-decoration: none; font-size: 16px; }
+  .back:hover { text-decoration: underline; }
+  h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 48px; line-height: 1.1; letter-spacing: -0.01em; margin: 28px 0 10px; }
+  .byline { color: var(--muted); font-size: 17px; margin: 0; }
+  .rule { width: 48px; height: 5px; background: var(--accent); margin: 26px 0 30px; border-radius: 2px; }
+  .lead { font-size: 21px; margin: 0 0 28px; }
+  h2 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 30px; margin: 56px 0 12px; }
+  p { margin: 12px 0; }
+  a { color: var(--accent); }
+  video { display: block; width: 100%; border-radius: 12px; border: 1px solid var(--hairline); background: #0d1014; }
+  .caption { color: var(--muted); font-size: 15px; margin-top: 8px; }
+  .prompt { position: relative; margin-top: 16px; }
+  pre { margin: 0; padding: 60px 24px 24px; background: var(--card); border: 1px solid var(--hairline); border-radius: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .fill { background: var(--tint); color: var(--accent); border-radius: 3px; padding: 0 3px; }
+  .copy { position: absolute; top: 12px; right: 12px; font: 600 14px 'Source Sans 3', sans-serif; color: var(--paper); background: var(--structure); border: 0; border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+  .copy:hover { background: #26413a; }
+  .copy:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  figure { margin: 18px 0 0; }
+  figure svg { width: 100%; height: auto; display: block; }
+  .table-wrap { overflow-x: auto; margin-top: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 16px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--hairline); }
+  th { font-weight: 600; color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; }
+  td.num { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: var(--muted); white-space: nowrap; }
+  ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  ::selection { background: var(--tint); color: var(--ink); }
+  footer { color: var(--muted); font-size: 15px; margin-top: 64px; border-top: 1px solid var(--hairline); padding-top: 20px; }
+  footer a { color: var(--structure); }
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    main { padding: 40px 16px 80px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 25px; }
+    .lead { font-size: 19px; }
+    pre { padding: 52px 16px 18px; font-size: 13px; }
+    table { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="../">← Amar Patel</a>
+  <h1>Build a video studio with Claude Code</h1>
+  <p class="byline">Amar Patel · 29 October 2026</p>
+  <div class="rule"></div>
+
+  <p class="lead">Paste one prompt into Claude Code, and over a day or two it builds a local, open-source stack that turns a script and a recording of your app into short videos: screen capture, a synthetic voiceover, generated music, motion and captions.</p>
+
+  <video controls preload="metadata" poster="poster.jpg" src="showcase.mp4"></video>
+  <p class="caption">The stack explaining itself. Everything in this film, the voice included, came out of the repo the prompt below builds. 1 min 40 s, with captions.</p>
+
+  <h2>The prompt</h2>
+  <p>Copy this into Claude Code in an empty folder beside your app. Fill in the three highlighted parts first; everything else works as written.</p>
+  <div class="prompt">
+    <button class="copy" type="button" id="copy">Copy prompt</button>
+<pre id="prompt">I want short videos that show people how to use my app: tutorials and promos for YouTube Shorts and Instagram Reels (9:16), plus 16:9 cuts for LinkedIn. I don't want to be on camera, and I don't have time for video production.
+
+Think like an architect building a new stack. Make a new repo for it beside my app. Before building anything, assess the open-source options and recommend one per job, with its licence.
+
+GOAL: script in, film out. One command turns a script file and a recording of my app into a finished MP4: screen capture, synthetic voiceover, music, motion and captions.
+
+CONSTRAINTS
+- Runs locally. My machine: <span class="fill">[GPU and memory, e.g. "NVIDIA, 12 GB" or "AMD with ROCm, 16 GB" or "CPU only"]</span>.
+- Only tools and model weights whose licences allow commercial use. Record each choice and its licence in docs/decisions.md. MusicGen weights are non-commercial, so never use them.
+- Footage comes only from my app's demo mode, with made-up data: <span class="fill">[how to start demo mode, or "there is none yet: build a seeded demo first"]</span>.
+- Never clone or imitate a real person's voice. Design voices from written descriptions.
+- I judge voices and music by ear. Give me short auditions to pick from; never decide for me.
+- The house accent is <span class="fill">[e.g. British English]</span>. Test that the accent survives on real script lines, not just a sample.
+
+ARCHITECTURE
+- Four steps: capture, voice, compose, render. Each reads files and writes files, so any step can run again on its own.
+- Capture is data: each video's clicks, scrolls and waits live in its script.json. One runner (Playwright, frames from Chrome's screencast at 60 fps) plays them and records when each beat lands.
+- Voice: one house voice for every video. Keep approved clips and record what each one says; re-voice only lines whose words changed. Keep a pronunciation dictionary (IPA if the engine takes it). After voicing, a speech recogniser checks each clip for missing or swapped words.
+- Compose: an HTML and GSAP composition rendered frame by frame (HyperFrames). Lines land on their beats. Captions take the script's words and the transcript's timings, matched line by line. Music dips under the voice, mastered to -16 LUFS.
+- Motion: a small set of opt-in tools (pointer and click ripple, one slow zoom, freeze-and-label, speed ramp, transitions, motion blur), used where they help. Default to a still camera.
+
+BUILD ORDER (stop at every * for my decision)
+1. Assessment and stack choice *
+2. Spike: one 20-30 s video end to end, rough is fine
+3. Voice auditions: about 6 descriptions x 2 takes, each reading real script lines *
+4. Motion toolkit, then music auditions in several styles; loop the pick on its bar lines *
+5. Capture as data, then a list of the first ten videos *
+6. Hardening: locked voice clips, per-line captions, pronunciation dictionary, voice check, a capture that waits for the app to be on screen
+7. A 16:9 showcase film of the stack itself, made with the stack
+
+DOCS: a README, an AGENTS.md of rules for agents, and docs/ for architecture, making a video, voice, sound, motion, decisions and roadmap. Commit after each phase I approve.</pre>
+  </div>
+
+  <h2>How it fits together</h2>
+  <figure>
+    <svg viewBox="0 0 760 290" role="img" aria-label="Each step reads files and writes files, so any step re-runs alone" font-family="Source Sans 3, system-ui, sans-serif" font-size="13">
+      <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6E6255"/></marker></defs>
+      <text x="24" y="30" font-size="16" font-weight="700" fill="#231B12">Each step reads files and writes files, so any step re-runs alone</text>
+      <text x="24" y="52" font-size="12.5" fill="#6E6255">Highlighted inputs are picked by ear; everything else is code</text>
+      <g fill="none" stroke="#6E6255" stroke-width="1.25">
+        <path d="M107 132V170" marker-end="url(#arrow)"/><path d="M289 132V170" marker-end="url(#arrow)"/><path d="M471 132V170" marker-end="url(#arrow)"/>
+        <path d="M190 214H206" marker-end="url(#arrow)"/><path d="M372 214H388" marker-end="url(#arrow)"/><path d="M554 214H570" marker-end="url(#arrow)"/>
+      </g>
+      <g>
+        <rect x="24" y="76" width="166" height="56" rx="8" fill="#FBF8F1" stroke="#C9BCA4" stroke-width="1.25"/>
+        <text x="107" y="100" text-anchor="middle" font-weight="700" fill="#231B12">script.json</text>
+        <text x="107" y="118" text-anchor="middle" font-size="12.5" fill="#6E6255">lines + capture steps</text>
+      </g>
+      <g>
+        <rect x="206" y="76" width="166" height="56" rx="8" fill="#F3E1D2" stroke="#A63E12" stroke-width="2"/>
+        <text x="289" y="100" text-anchor="middle" font-weight="700" fill="#231B12">House voice</text>
+        <text x="289" y="118" text-anchor="middle" font-size="12.5" fill="#6E6255">blend + IPA dictionary</text>
+      </g>
+      <g>
+        <rect x="388" y="76" width="166" height="56" rx="8" fill="#F3E1D2" stroke="#A63E12" stroke-width="2"/>
+        <text x="471" y="100" text-anchor="middle" font-weight="700" fill="#231B12">House theme</text>
+        <text x="471" y="118" text-anchor="middle" font-size="12.5" fill="#6E6255">ACE-Step, looped</text>
+      </g>
+      <g>
+        <rect x="24" y="170" width="166" height="88" rx="8" fill="#FBF8F1" stroke="#33544A" stroke-width="1.25"/>
+        <text x="107" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#33544A">Capture</text>
+        <text x="107" y="214" text-anchor="middle" font-size="12.5" fill="#6E6255">Playwright + Chrome</text>
+        <text x="107" y="230" text-anchor="middle" font-size="12.5" fill="#231B12">capture.mp4</text>
+        <text x="107" y="246" text-anchor="middle" font-size="12.5" fill="#231B12">beat times</text>
+      </g>
+      <g>
+        <rect x="206" y="170" width="166" height="88" rx="8" fill="#FBF8F1" stroke="#33544A" stroke-width="1.25"/>
+        <text x="289" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#33544A">Voice</text>
+        <text x="289" y="214" text-anchor="middle" font-size="12.5" fill="#6E6255">Kokoro, British mode</text>
+        <text x="289" y="230" text-anchor="middle" font-size="12.5" fill="#231B12">one clip per line</text>
+        <text x="289" y="246" text-anchor="middle" font-size="12.5" fill="#231B12">checked by Parakeet</text>
+      </g>
+      <g>
+        <rect x="388" y="170" width="166" height="88" rx="8" fill="#FBF8F1" stroke="#33544A" stroke-width="1.25"/>
+        <text x="471" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#33544A">Compose</text>
+        <text x="471" y="214" text-anchor="middle" font-size="12.5" fill="#6E6255">HyperFrames + ffmpeg</text>
+        <text x="471" y="230" text-anchor="middle" font-size="12.5" fill="#231B12">index.html, mix.wav</text>
+        <text x="471" y="246" text-anchor="middle" font-size="12.5" fill="#231B12">captions on the beats</text>
+      </g>
+      <g>
+        <rect x="570" y="170" width="166" height="88" rx="8" fill="#FBF8F1" stroke="#33544A" stroke-width="1.25"/>
+        <text x="653" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#33544A">Render</text>
+        <text x="653" y="214" text-anchor="middle" font-size="12.5" fill="#6E6255">HyperFrames, 60 fps</text>
+        <text x="653" y="230" text-anchor="middle" font-size="12.5" fill="#231B12">film.mp4</text>
+        <text x="653" y="246" text-anchor="middle" font-size="12.5" fill="#231B12">9:16 or 16:9</text>
+      </g>
+    </svg>
+  </figure>
+  <p>A script and two house assets go in; each step writes files the next one reads. Change a line and only Voice, Compose and Render run again; change a click and only Capture does.</p>
+
+  <h2>The plan</h2>
+  <p>Seven phases took us about a day and a half of elapsed time, most of it waiting on renders and listening. Times are what this build took, on one desktop with a 16 GB AMD GPU.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Phase</th><th>What you get</th><th>Your call</th><th>Our time</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>Assess the stack</td><td>A short report: one recommended tool per job, with licences</td><td>Approve the stack</td><td class="num">15 min</td></tr>
+      <tr><td class="num">2</td><td>Spike</td><td>One rough 20-30 s video, start to finish</td><td>Is it worth going on?</td><td class="num">3-4 h</td></tr>
+      <tr><td class="num">3</td><td>Voice auditions</td><td>About 12 designed voices reading real lines</td><td>Pick the house voice</td><td class="num">1 h</td></tr>
+      <tr><td class="num">4</td><td>Motion and music</td><td>Opt-in motion tools; 10-30 music takes in several styles, heard under a real video</td><td>Pick the theme</td><td class="num">2-3 h</td></tr>
+      <tr><td class="num">5</td><td>Capture as data</td><td>Videos described in JSON, one runner; a list of the first ten videos</td><td>Agree the list and order</td><td class="num">30 min</td></tr>
+      <tr><td class="num">6</td><td>Hardening</td><td>Locked voice clips, per-line captions, pronunciation dictionary, voice check, steady capture</td><td>Approve each fix</td><td class="num">3 h</td></tr>
+      <tr><td class="num">7</td><td>Showcase film</td><td>A 16:9 film about the stack, made by it</td><td>Approve the cut</td><td class="num">2 h</td></tr>
+    </tbody>
+  </table></div>
+  <p>Decide by ear at phases 3 and 4, and expect to go back: our first house voice and first theme were both replaced a day later, once heard under finished videos.</p>
+
+  <h2>Lessons</h2>
+  <p>Most of our time went on voice. Put these in the prompt, or tell Claude Code when they come up.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Problem</th><th>Cause</th><th>What fixed it</th></tr></thead>
+    <tbody>
+      <tr><td>Every voice sounded American, even when described as British</td><td>The designed voice drifts towards its training data, more so when copied onto new lines</td><td>Kokoro in British mode: it turns words into British sounds before speaking. Then blend a Kokoro voice towards the timbre you liked</td></tr>
+      <tr><td>One word kept coming out wrong ("Meh" read as "may")</td><td>The engine guesses the sound from the spelling</td><td>A pronunciation dictionary with IPA. Only your ear can judge it: the speech recogniser heard "May" for every spelling</td></tr>
+      <tr><td>Re-voicing undid an approved take</td><td>Each voicing is a fresh random take</td><td>Keep approved clips in git, record what each one says, re-voice only changed lines</td></tr>
+      <tr><td>Questions sound like statements</td><td>Kokoro has no control over intonation</td><td>Still open. Pitch marks and pitch lifts were too small to hear; reword, or test a more expressive engine</td></tr>
+      <tr><td>Captions jumped or the build failed</td><td>The recogniser heard "to-do" as two words, so counts across the whole film drifted</td><td>Match words line by line; join split words; end each line's last word at its clip's end</td></tr>
+      <tr><td>Viewers felt seasick</td><td>The camera pushed in on every click</td><td>A still camera with one slow zoom where text must be read; film the desktop layout</td></tr>
+      <tr><td>Capture timed out now and then</td><td>It waited for a button that was hidden or absent in some layouts</td><td>Wait for something visible in every layout; reload once; save a screenshot on failure</td></tr>
+      <tr><td>Music stopped two thirds through a long film</td><td>The theme was a 60 s take</td><td>Loop the whole take on its bar lines</td></tr>
+      <tr><td>Claps and snares fought the voice</td><td>Sharp hits in the speech range</td><td>Ask for no claps; cut the music around 2.5 kHz; dip it while the voice speaks</td></tr>
+      <tr><td>Screen recording came out at half size</td><td>Playwright's recorder paints CSS pixels</td><td>Take frames from Chrome's screencast and acknowledge each one first, which keeps 60 fps</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>What you need</h2>
+  <p>A desktop with a 16 GB GPU, about 15 GB of disk for models, and a Claude Code plan. Nothing else costs money: every tool below allows commercial use.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Job</th><th>Tool</th><th>Licence</th><th>Runs on</th></tr></thead>
+    <tbody>
+      <tr><td>Screen capture</td><td>Playwright with Chrome's screencast</td><td>Apache 2.0</td><td>CPU</td></tr>
+      <tr><td>Voice</td><td>Kokoro 82M, British mode</td><td>Apache 2.0</td><td>CPU, about 1 s a line</td></tr>
+      <tr><td>Voice design (auditions only)</td><td>Qwen3-TTS 1.7B</td><td>Apache 2.0</td><td>GPU</td></tr>
+      <tr><td>Voice blending</td><td>Resemblyzer, to score how alike two voices sound</td><td>Apache 2.0</td><td>CPU</td></tr>
+      <tr><td>Word timings and voice check</td><td>Parakeet TDT 0.6B</td><td>CC BY 4.0</td><td>CPU</td></tr>
+      <tr><td>Music</td><td>ACE-Step 1.5 turbo</td><td>MIT</td><td>GPU, about 4 GB</td></tr>
+      <tr><td>Composition and render</td><td>HyperFrames (HTML and GSAP, frame by frame)</td><td>Apache 2.0</td><td>CPU and browser</td></tr>
+      <tr><td>Audio and video glue</td><td>ffmpeg</td><td>LGPL or GPL, by build</td><td>CPU</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li>Kokoro uses eSpeak (GPL) for words it doesn't know; it runs as a separate library.</li>
+    <li>Kokoro's GPU path failed on our AMD card, so it runs on the CPU. On NVIDIA it may run on the GPU.</li>
+    <li>First runs download about 9 GB of voice models and 5 GB of music models.</li>
+    <li>Renders: a 40 s vertical video takes about 3 minutes with motion blur; a 100 s 16:9 film about 3 minutes.</li>
+  </ul>
+
+  <footer><a href="../">All talks and guides</a> · <a href="https://www.linkedin.com/in/amarapatel/">LinkedIn</a></footer>
+</main>
+<script>
+  const btn = document.getElementById("copy");
+  btn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(document.getElementById("prompt").innerText);
+      btn.textContent = "Copied";
+    } catch {
+      btn.textContent = "Select and copy";
+    }
+    setTimeout(() => { btn.textContent = "Copy prompt"; }, 2000);
+  });
+</script>
+</body>
+</html>
