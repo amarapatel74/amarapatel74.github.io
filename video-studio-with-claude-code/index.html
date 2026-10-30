@@ -211,7 +211,7 @@ DOCS: a README, an AGENTS.md of rules for agents, and docs/ for architecture, ma
       <tr><td>Voice blending</td><td>Resemblyzer, to score how alike two voices sound</td><td>Apache 2.0</td><td>CPU</td></tr>
       <tr><td>Word timings and voice check</td><td>Parakeet TDT 0.6B</td><td>CC BY 4.0</td><td>CPU</td></tr>
       <tr><td>Music</td><td>ACE-Step 1.5 turbo</td><td>MIT</td><td>GPU, about 4 GB</td></tr>
-      <tr><td>Composition and render</td><td>HyperFrames (HTML and GSAP, frame by frame)</td><td>Apache 2.0</td><td>CPU and browser</td></tr>
+      <tr><td>Composition and render</td><td>HyperFrames (HTML and GSAP, frame by frame)</td><td>Apache 2.0</td><td>CPU, and GPU through Chrome</td></tr>
       <tr><td>Audio and video glue</td><td>ffmpeg</td><td>LGPL or GPL, by build</td><td>CPU</td></tr>
     </tbody>
   </table></div>
@@ -219,7 +219,7 @@ DOCS: a README, an AGENTS.md of rules for agents, and docs/ for architecture, ma
     <li>Kokoro uses eSpeak (GPL) for words it doesn't know; it runs as a separate library.</li>
     <li>Kokoro's GPU path failed on our AMD card, so it runs on the CPU. On NVIDIA it may run on the GPU.</li>
     <li>First runs download about 9 GB of voice models and 5 GB of music models.</li>
-    <li>Renders: a 40 s vertical video takes about 3 minutes with motion blur; a 100 s 16:9 film about 3 minutes.</li>
+    <li>Renders: a 40 s vertical video takes about 2½ minutes with motion blur; a 100 s 16:9 film under 2 minutes. Time a render with a few worker counts: HyperFrames picked 6 on our 18-core CPU, and 12 was about a quarter faster.</li>
   </ul>
 
   <footer><a href="../">All talks and guides</a> · <a href="https://www.linkedin.com/in/amarapatel/">LinkedIn</a></footer>
